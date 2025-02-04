@@ -1,19 +1,24 @@
 {
   "name": "my-apps",
+  "devDependencies": {
+    "prettier": "^3.4.2",
+    "syncpack": "^13.0.1",
+    "turbo": "^2.4.0",
+    "typescript": "^5.7.3"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "packageManager": "pnpm@10.0.0",
   "private": true,
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
-  },
-  "devDependencies": {
-    "prettier": "^3.4.2",
-    "turbo": "^2.4.0",
-    "typescript": "5.7.3"
-  },
-  "packageManager": "pnpm@9.0.0",
-  "engines": {
-    "node": ">=18"
+    "sync:fix": "pnpm exec syncpack fix-mismatches",
+    "sync:format": "pnpm exec syncpack format",
+    "sync:list": "pnpm exec syncpack list",
+    "sync:mismatches": "pnpm exec syncpack list-mismatches",
+    "sync:update": "pnpm exec syncpack update"
   }
 }
