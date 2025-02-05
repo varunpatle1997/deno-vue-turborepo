@@ -9,14 +9,13 @@
     "esModuleInterop": true,
     "isolatedModules": true,
     "lib": ["ES2023"],
-    "module": "NodeNext",
+    "module": "ESNext",
     "moduleDetection": "force",
-    "moduleResolution": "NodeNext",
+    "moduleResolution": "bundler",
     "noUncheckedIndexedAccess": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
-    "allowJs": true,
     "target": "ES2022"
   }
 }

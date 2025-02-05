@@ -12,7 +12,7 @@ export default defineConfig(({ mode }) => {
     },
     production: {
       __VITE_API_BASE_URL__: JSON.stringify(
-        "https://deno-app-1-avanfrewhaebbraw.canadacentral-01.azurewebsites.net",
+        "https://deno-app-2-fah4bue4dhhcc2e0.canadacentral-01.azurewebsites.net",
       ),
     },
   };
@@ -25,10 +25,6 @@ export default defineConfig(({ mode }) => {
     resolve: {
       alias: {
         "@": path.resolve(__dirname, "src"),
-        "@repo/zod-schemas": path.resolve(
-          __dirname,
-          "../../../packages/zod-schemas/dist/index.js",
-        ),
       },
     },
     plugins: [vue()],

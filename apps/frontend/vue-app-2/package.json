@@ -1,5 +1,5 @@
 {
-  "name": "vue-app-1",
+  "name": "vue-app-2",
   "version": "0.0.0",
   "dependencies": {
     "@repo/zod-schemas": "workspace:*",
@@ -26,7 +26,7 @@
   "scripts": {
     "build": "vue-tsc -b && vite build --mode production",
     "check-types": "tsc --noEmit",
-    "deploy": "swa deploy --config swa-cli.config.json --deployment-token=$DEPLOY_TOKEN_VUE_APP_1",
+    "deploy": "swa deploy --config swa-cli.config.json --deployment-token=$DEPLOY_TOKEN_VUE_APP_2",
     "dev": "vite --mode development",
     "format": "prettier --write .",
     "lint": "eslint .",

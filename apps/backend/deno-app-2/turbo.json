@@ -1,0 +1,59 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "extends": ["//"],
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/bundle.js"],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "!**/*.md",
+        "!**/*.{spec,test}.{js,ts,jsx,tsx,snap}",
+        "!package.json",
+        "!turbo.json",
+        "!test_setup.{js,ts}"
+      ],
+      "cache": true
+    },
+    "lint": {
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "!**/*.md",
+        "!**/*.{spec,test}.{js,ts,jsx,tsx,snap}",
+        "!package.json",
+        "!turbo.json",
+        "!test_setup.{js,ts}",
+        "!deno.json",
+        "!deno.lock"
+      ],
+      "cache": true
+    },
+    "test": {
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "!**/*.md",
+        "!package.json",
+        "!turbo.json",
+        "!deno.json",
+        "!deno.lock"
+      ],
+      "cache": true
+    },
+    "format": {
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "!**/*.md",
+        "!**/*.{spec,test}.{js,ts,jsx,tsx,snap}",
+        "!package.json",
+        "!turbo.json",
+        "!deno.json",
+        "!deno.lock"
+      ],
+      "cache": true
+    },
+    "deploy": {
+      "cache": false,
+      "outputs": []
+    }
+  }
+}

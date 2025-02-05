@@ -4,7 +4,7 @@
     "default": {
       "appLocation": ".",
       "outputLocation": "./dist",
-      "appName": "vue-app-1",
+      "appName": "vue-app-2",
       "resourceGroup": "mvpsso"
     }
   }
