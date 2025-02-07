@@ -24,6 +24,7 @@
       "cache": true
     },
     "lint": {
+      "outputs": [],
       "inputs": [
         "$TURBO_DEFAULT$",
         "!tsconfig.json",
@@ -43,6 +44,7 @@
       "cache": true
     },
     "format": {
+      "outputs": [],
       "inputs": [
         "$TURBO_DEFAULT$",
         "!tsconfig.json",
@@ -100,6 +102,7 @@
       "cache": true
     },
     "check-types": {
+      "outputs": ["out-tsc/**"],
       "inputs": [
         "$TURBO_DEFAULT$",
         "!tsconfig.json",
@@ -123,13 +126,16 @@
       "cache": false
     },
     "sonar": {
+      "outputs": [],
       "env": ["SONAR_VUE_APP_1"],
       "cache": false
     },
     "codeql-run-analysis": {
+      "outputs": [],
       "cache": false
     },
     "codeql-upload-result": {
+      "outputs": [],
       "env": ["GITHUB_TOKEN", "GITHUB_REPOSITORY", "GITHUB_REF", "GITHUB_SHA"],
       "cache": false
     }
