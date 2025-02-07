@@ -35,7 +35,6 @@
         "!**/*.md",
         "!**/docs/**",
         "!**/notes/**",
-        "!pnpm-lock.yaml",
         "!vite.config.ts",
         "!vitest.config.ts",
         "!**/*.d.ts",
@@ -65,20 +64,17 @@
       "cache": true
     },
     "test": {
+      "dependsOn": ["^build"],
       "outputs": ["coverage/**"],
       "inputs": [
         "$TURBO_DEFAULT$",
         "!tsconfig.json",
         "!tsconfig.node.json",
         "!tsconfig.app.json",
-        "!**/*.spec.ts",
-        "!**/*.test.ts",
         "!**/*.md",
         "!**/docs/**",
         "!**/notes/**",
-        "!pnpm-lock.yaml",
         "!vite.config.ts",
-        "!vitest.config.ts",
         "!**/*.d.ts",
         "!swa-cli.config.json",
         "!eslint.config.js"
@@ -86,20 +82,17 @@
       "cache": true
     },
     "test:coverage": {
+      "dependsOn": ["^build"],
       "outputs": ["coverage/**"],
       "inputs": [
         "$TURBO_DEFAULT$",
         "!tsconfig.json",
         "!tsconfig.node.json",
         "!tsconfig.app.json",
-        "!**/*.spec.ts",
-        "!**/*.test.ts",
         "!**/*.md",
         "!**/docs/**",
         "!**/notes/**",
-        "!pnpm-lock.yaml",
         "!vite.config.ts",
-        "!vitest.config.ts",
         "!**/*.d.ts",
         "!swa-cli.config.json",
         "!eslint.config.js"
@@ -118,7 +111,6 @@
         "!**/*.md",
         "!**/docs/**",
         "!**/notes/**",
-        "!pnpm-lock.yaml",
         "!vite.config.ts",
         "!vitest.config.ts",
         "!**/*.d.ts",
@@ -128,8 +120,18 @@
       "cache": true
     },
     "deploy": {
-      "cache": false,
-      "outputs": []
+      "cache": false
+    },
+    "sonar": {
+      "env": ["SONAR_VUE_APP_2"],
+      "cache": false
+    },
+    "codeql-run-analysis": {
+      "cache": false
+    },
+    "codeql-upload-result": {
+      "env": ["GITHUB_TOKEN", "GITHUB_REPOSITORY", "GITHUB_REF", "GITHUB_SHA"],
+      "cache": false
     }
   }
 }

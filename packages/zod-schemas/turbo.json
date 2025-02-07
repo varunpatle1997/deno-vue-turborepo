@@ -1,0 +1,31 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "extends": [
+    "//"
+  ],
+  "tasks": {
+    "build": {
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "dist/**"
+      ],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "!eslint.config.js",
+        "!**/*.md",
+        "!**/*.d.ts"
+      ],
+      "cache": true
+    },
+    "lint": {
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "!**/*.md",
+        "!tsconfig.json"
+      ],
+      "cache": true
+    }
+  }
+}

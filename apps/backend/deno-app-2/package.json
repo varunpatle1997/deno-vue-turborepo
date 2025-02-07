@@ -7,6 +7,6 @@
     "dev": "deno task start",
     "format": "deno task fmt",
     "lint": "deno lint --config deno.json",
-    "test": "deno test --allow-env --allow-net --config deno.json --coverage=coverage/ --permit-no-files tests/** --no-check"
+    "test": "deno test --allow-env --allow-net --coverage=coverage/ --permit-no-files tests/** --no-check"
   }
 }

@@ -22,12 +22,10 @@ describe("UserForm.vue", () => {
     const emailInput = wrapper.find("#email");
     const form = wrapper.find("form");
 
-    // Fill form with invalid data
     await nameInput.setValue("John Doe");
     await emailInput.setValue("invalid-email"); // Invalid email
     await form.trigger("submit.prevent");
 
-    // Expect validation error
     expect(wrapper.text()).toContain("Invalid email");
   });
 

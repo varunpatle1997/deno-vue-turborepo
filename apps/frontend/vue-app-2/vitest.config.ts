@@ -1,6 +1,6 @@
 import { defineConfig } from "vitest/config";
 import vue from "@vitejs/plugin-vue";
-import * as path from "path";
+import path from "path";
 import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -21,7 +21,7 @@ export default defineConfig({
     ],
     coverage: {
       provider: "v8",
-      reporter: ["text", "json", "html"],
+      reporter: ["lcov", "text-summary", "html"],
       exclude: [
         "node_modules/",
         "src/tests/",

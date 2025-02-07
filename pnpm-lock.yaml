@@ -21,7 +21,11 @@ importers:
         specifier: ^5.7.3
         version: 5.7.3
 
-  apps/backend/deno-app-1: {}
+  apps/backend/deno-app-1:
+    dependencies:
+      '@repo/zod-schemas':
+        specifier: workspace:*
+        version: link:../../../packages/zod-schemas
 
   apps/backend/deno-app-2: {}
 
@@ -64,6 +68,9 @@ importers:
       '@vue/tsconfig':
         specifier: ^0.7.0
         version: 0.7.0(typescript@5.7.3)(vue@3.5.13(typescript@5.7.3))
+      eslint:
+        specifier: ^9.19.0
+        version: 9.19.0
       jsdom:
         specifier: ^26.0.0
         version: 26.0.0
@@ -82,9 +89,6 @@ importers:
 
   apps/frontend/vue-app-2:
     dependencies:
-      '@repo/zod-schemas':
-        specifier: workspace:*
-        version: link:../../../packages/zod-schemas
       axios:
         specifier: ^1.7.9
         version: 1.7.9
@@ -119,6 +123,9 @@ importers:
       '@vue/tsconfig':
         specifier: ^0.7.0
         version: 0.7.0(typescript@5.7.3)(vue@3.5.13(typescript@5.7.3))
+      eslint:
+        specifier: ^9.19.0
+        version: 9.19.0
       jsdom:
         specifier: ^26.0.0
         version: 26.0.0

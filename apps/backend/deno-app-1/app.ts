@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
-import { chunk } from "lodash";
+import _ from "lodash";
 import { userSchema } from "@repo/zod-schemas/index.js";
 import { z } from "zod";
 
@@ -10,7 +10,7 @@ app.use("*", cors());
 
 app.get("/", (c) => {
   const data = [1, 2, 3, 4, 5, 6, 7, 8];
-  const chunkedData = chunk(data, 2);
+  const chunkedData = _.chunk(data, 2);
   const APP_NAME = Deno.env.get("APP_NAME") || "Default App";
   const OWNER_NAME = Deno.env.get("OWNER_NAME") || "Default Owner";
 

@@ -22,21 +22,13 @@
         "!**/*.{spec,test}.{js,ts,jsx,tsx,snap}",
         "!package.json",
         "!turbo.json",
-        "!test_setup.{js,ts}",
-        "!deno.json",
-        "!deno.lock"
+        "!test_setup.{js,ts}"
       ],
       "cache": true
     },
     "test": {
-      "inputs": [
-        "$TURBO_DEFAULT$",
-        "!**/*.md",
-        "!package.json",
-        "!turbo.json",
-        "!deno.json",
-        "!deno.lock"
-      ],
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", "!**/*.md", "!package.json", "!turbo.json"],
       "cache": true
     },
     "format": {
