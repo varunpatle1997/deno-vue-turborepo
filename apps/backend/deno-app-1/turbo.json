@@ -1,16 +1,10 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "extends": [
-    "//"
-  ],
+  "extends": ["//"],
   "tasks": {
     "build": {
-      "dependsOn": [
-        "^build"
-      ],
-      "outputs": [
-        "dist/bundle.js"
-      ],
+      "dependsOn": ["^build"],
+      "outputs": ["dist/bundle.js"],
       "inputs": [
         "$TURBO_DEFAULT$",
         "!**/*.md",
@@ -34,18 +28,9 @@
       "cache": true
     },
     "test": {
-      "dependsOn": [
-        "^build"
-      ],
-      "inputs": [
-        "$TURBO_DEFAULT$",
-        "!**/*.md",
-        "!package.json",
-        "!turbo.json"
-      ],
-      "outputs": [
-        "coverage/**"
-      ],
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", "!**/*.md", "!package.json", "!turbo.json"],
+      "outputs": ["coverage/**"],
       "cache": true
     },
     "format": {
