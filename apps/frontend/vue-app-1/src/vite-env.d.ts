@@ -1,6 +1,6 @@
 /// <reference types="vite/client" />
 
-declare const __VITE_API_BASE_URL__: string;
+declare const VITE_API_BASE_URL: string;
 
 declare module "*.vue" {
   import { defineComponent } from "vue";

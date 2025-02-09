@@ -1,6 +1,12 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "ui": "tui",
+  "remoteCache": {
+    "enabled": true,
+    "timeout": 120,
+    "uploadTimeout": 300,
+    "signature": true
+  },
   "tasks": {
     "build": {
       "dependsOn": ["^build"],

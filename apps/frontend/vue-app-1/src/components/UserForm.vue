@@ -32,7 +32,7 @@ export default {
     const user = ref({ name: "", email: "" });
     const message = ref("");
     const error = ref("");
-    const apiBaseUrl = __VITE_API_BASE_URL__;
+    const apiBaseUrl = VITE_API_BASE_URL;
 
     const submitForm = async () => {
       try {

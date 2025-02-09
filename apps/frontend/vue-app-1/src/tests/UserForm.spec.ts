@@ -7,7 +7,7 @@ import { nextTick } from "vue";
 
 vi.mock("axios");
 
-vi.stubGlobal("__VITE_API_BASE_URL__", "http://mock-api.com");
+vi.stubGlobal("VITE_API_BASE_URL", "http://mock-api.com");
 
 describe("UserForm.vue", () => {
   it("renders correctly", () => {

@@ -1,25 +1,30 @@
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 import path from "path";
+import fs from "fs";
 
-export default defineConfig(({ mode }) => {
-  const environmentConfigs = {
-    development: {
-      __VITE_API_BASE_URL__: JSON.stringify("http://localhost:3000"),
-    },
-    staging: {
-      __VITE_API_BASE_URL__: JSON.stringify("https://staging-api.example.com"),
-    },
-    production: {
-      __VITE_API_BASE_URL__: JSON.stringify(
-        "https://deno-app-1-avanfrewhaebbraw.canadacentral-01.azurewebsites.net",
-      ),
-    },
-  };
+export default defineConfig(() => {
+  const NODE_ENV = process.env.NODE_ENV || "development";
 
-  const envConfig =
-    environmentConfigs[mode as keyof typeof environmentConfigs] ||
-    environmentConfigs.development;
+  console.log(`Using NODE_ENV: ${NODE_ENV}`);
+
+  const envFilePath = path.resolve(__dirname, `./${NODE_ENV}.json`);
+
+  if (!fs.existsSync(envFilePath)) {
+    console.error(`ERROR: Missing environment config file: ${envFilePath}`);
+    process.exit(1);
+  }
+
+  const envConfig = JSON.parse(fs.readFileSync(envFilePath, "utf-8"));
+
+  const viteDefine = Object.fromEntries(
+    Object.entries(envConfig).map(([key, value]) => [
+      key,
+      JSON.stringify(value),
+    ]),
+  );
+
+  console.log(`Loaded env config:`, viteDefine);
 
   return {
     resolve: {
@@ -32,6 +37,6 @@ export default defineConfig(({ mode }) => {
       },
     },
     plugins: [vue()],
-    define: envConfig,
+    define: viteDefine,
   };
 });

@@ -1,10 +1,19 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "extends": ["//"],
+  "extends": [
+    "//"
+  ],
   "tasks": {
     "build": {
-      "dependsOn": ["^build"],
-      "outputs": ["dist/**"],
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "dist/**"
+      ],
+      "env": [
+        "NODE_ENV"
+      ],
       "inputs": [
         "$TURBO_DEFAULT$",
         "!vite.config.ts",
@@ -66,8 +75,12 @@
       "cache": true
     },
     "test": {
-      "dependsOn": ["^build"],
-      "outputs": ["coverage/**"],
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "coverage/**"
+      ],
       "inputs": [
         "$TURBO_DEFAULT$",
         "!tsconfig.json",
@@ -84,8 +97,12 @@
       "cache": true
     },
     "test:coverage": {
-      "dependsOn": ["^build"],
-      "outputs": ["coverage/**"],
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "coverage/**"
+      ],
       "inputs": [
         "$TURBO_DEFAULT$",
         "!tsconfig.json",
@@ -102,7 +119,9 @@
       "cache": true
     },
     "check-types": {
-      "outputs": ["out-tsc/**"],
+      "outputs": [
+        "out-tsc/**"
+      ],
       "inputs": [
         "$TURBO_DEFAULT$",
         "!tsconfig.json",
@@ -128,7 +147,9 @@
     },
     "sonar": {
       "outputs": [],
-      "env": ["SONAR_VUE_APP_2"],
+      "env": [
+        "SONAR_VUE_APP_2"
+      ],
       "cache": false
     },
     "codeql-run-analysis": {
@@ -137,7 +158,12 @@
     },
     "codeql-upload-result": {
       "outputs": [],
-      "env": ["GITHUB_TOKEN", "GITHUB_REPOSITORY", "GITHUB_REF", "GITHUB_SHA"],
+      "env": [
+        "GITHUB_TOKEN",
+        "GITHUB_REPOSITORY",
+        "GITHUB_REF",
+        "GITHUB_SHA"
+      ],
       "cache": false
     }
   }
