@@ -39,6 +39,11 @@
       "outputs": ["coverage/**"],
       "cache": true
     },
+    "check-types": {
+      "outputs": [],
+      "inputs": [],
+      "cache": true
+    },
     "format": {
       "outputs": [],
       "inputs": [

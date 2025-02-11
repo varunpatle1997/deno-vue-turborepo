@@ -148,28 +148,29 @@ jobs:
           TURBO_REMOTE_CACHE_SIGNATURE_KEY: ${{ secrets.TURBO_REMOTE_CACHE_SIGNATURE_KEY }}
         continue-on-error: false
 
-      # Login to Azure
-      - name: Login to Azure
-        uses: azure/login@v2
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-        continue-on-error: false
-
-      # Install Azure Static Web Apps CLI
-      - name: Install SWA CLI
-        run: |
-          npm install -g @azure/static-web-apps-cli
-        continue-on-error: false
-
-      # Pre-download StaticSitesClient binary, this will always fail but won't affect further steps.
-      - name: Dry running to ensure StaticSitesClient binary is downloaded before actual deployment triggers to avoid failures
-        run: |
-          swa deploy --dry-run --deployment-token=${{ secrets.DEPLOY_TOKEN_VUE_APP_1 }} || true
-
-      # Deploy affected projects
-      - name: Deploy Affected Projects
-        env:
-          DEPLOY_TOKEN_VUE_APP_1: ${{ secrets.DEPLOY_TOKEN_VUE_APP_1 }}
-          DEPLOY_TOKEN_VUE_APP_2: ${{ secrets.DEPLOY_TOKEN_VUE_APP_2 }}
-        run: |
-          pnpm turbo run deploy --affected
+      # # Login to Azure
+      # - name: Login to Azure
+      #   uses: azure/login@v2
+      #   with:
+      #     creds: ${{ secrets.AZURE_CREDENTIALS }}
+      #   continue-on-error: false
+      #
+      #
+      # # Install Azure Static Web Apps CLI
+      # - name: Install SWA CLI
+      #   run: |
+      #     npm install -g @azure/static-web-apps-cli
+      #   continue-on-error: false
+      #
+      # # Pre-download StaticSitesClient binary, this will always fail but won't affect further steps.
+      # - name: Dry running to ensure StaticSitesClient binary is downloaded before actual deployment triggers to avoid failures
+      #   run: |
+      #     swa deploy --dry-run --deployment-token=${{ secrets.DEPLOY_TOKEN_VUE_APP_1 }} || true
+      #
+      # # Deploy affected projects
+      # - name: Deploy Affected Projects
+      #   env:
+      #     DEPLOY_TOKEN_VUE_APP_1: ${{ secrets.DEPLOY_TOKEN_VUE_APP_1 }}
+      #     DEPLOY_TOKEN_VUE_APP_2: ${{ secrets.DEPLOY_TOKEN_VUE_APP_2 }}
+      #   run: |
+      #     pnpm turbo run deploy --affected
