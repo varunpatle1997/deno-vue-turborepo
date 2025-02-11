@@ -1,10 +1,16 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "extends": ["//"],
+  "extends": [
+    "//"
+  ],
   "tasks": {
     "build": {
-      "dependsOn": ["^build"],
-      "outputs": ["dist/bundle.js"],
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "dist/bundle.js"
+      ],
       "inputs": [
         "$TURBO_DEFAULT$",
         "!**/*.md",
@@ -28,9 +34,27 @@
       "cache": true
     },
     "test": {
-      "outputs": ["coverage/**"],
-      "dependsOn": ["^build"],
-      "inputs": ["$TURBO_DEFAULT$", "!**/*.md", "!package.json", "!turbo.json"],
+      "outputs": [
+        "coverage/**"
+      ],
+      "dependsOn": [
+        "^build"
+      ],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "!**/*.md",
+        "!package.json",
+        "!turbo.json"
+      ],
+      "cache": true
+    },
+    "test:coverage": {
+      "outputs": [
+        "coverage/**"
+      ],
+      "dependsOn": [
+        "^build"
+      ],
       "cache": true
     },
     "format": {
@@ -49,6 +73,27 @@
     "deploy": {
       "cache": false,
       "outputs": []
+    },
+    "sonar": {
+      "outputs": [],
+      "env": [
+        "SONAR_DENO_APP_1"
+      ],
+      "cache": false
+    },
+    "codeql-run-analysis": {
+      "outputs": [],
+      "cache": false
+    },
+    "codeql-upload-result": {
+      "outputs": [],
+      "env": [
+        "GITHUB_TOKEN",
+        "GITHUB_REPOSITORY",
+        "GITHUB_REF",
+        "GITHUB_SHA"
+      ],
+      "cache": false
     }
   }
 }

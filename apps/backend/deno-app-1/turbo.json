@@ -33,6 +33,12 @@
       "outputs": ["coverage/**"],
       "cache": true
     },
+    "test:coverage": {
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", "!**/*.md", "!package.json", "!turbo.json"],
+      "outputs": ["coverage/**"],
+      "cache": true
+    },
     "format": {
       "outputs": [],
       "inputs": [
@@ -49,6 +55,20 @@
     "deploy": {
       "cache": false,
       "outputs": []
+    },
+    "sonar": {
+      "outputs": [],
+      "env": ["SONAR_DENO_APP_1"],
+      "cache": false
+    },
+    "codeql-run-analysis": {
+      "outputs": [],
+      "cache": false
+    },
+    "codeql-upload-result": {
+      "outputs": [],
+      "env": ["GITHUB_TOKEN", "GITHUB_REPOSITORY", "GITHUB_REF", "GITHUB_SHA"],
+      "cache": false
     }
   }
 }

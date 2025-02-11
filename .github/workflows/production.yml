@@ -1,0 +1,175 @@
+name: Production Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+permissions:
+  actions: read
+  contents: read
+  security-events: write
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20]
+
+    steps:
+      # Checkout repository
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # Install required Deno version
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: 2.1.9
+
+      # Cache Deno dependencies
+      - name: Cache Deno Dependencies
+        uses: actions/cache@v4
+        env:
+          DENO_DIR: ~/.cache/deno
+        with:
+          path: ~/.cache/deno
+          key: ${{ runner.os }}-deno-${{ hashFiles('**/deno.json', '**/deno.lock') }}
+
+      # Install pnpm using pnpm/action-setup
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.2.0
+
+      # Set up Node.js with caching for pnpm
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "pnpm"
+
+      # Install dependencies with pnpm
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+
+      # Debugging and monitoring affected projects
+      - name: Show Affected Projects
+        run: |
+          pnpm turbo build --affected --graph
+
+      # # Install SonarScanner CLI
+      # - name: Install SonarScanner CLI
+      #   run: |
+      #     set -e  # Stop execution if any command fails
+      #     wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-6.2.1.4610-linux-x64.zip -O sonar-scanner.zip
+      #     unzip sonar-scanner.zip
+      #     mv sonar-scanner-6.2.1.4610-linux-x64 sonar-scanner
+      #     echo "$(pwd)/sonar-scanner/bin" >> $GITHUB_PATH
+      #
+      # # Install CodeQL CLI
+      # - name: Install CodeQL CLI
+      #   run: |
+      #     set -e  # Stop execution if any command fails
+      #     wget https://github.com/github/codeql-action/releases/latest/download/codeql-bundle-linux64.tar.gz -O codeql-bundle.tar.gz
+      #     tar -xzf codeql-bundle.tar.gz -C /opt/
+      #     rm codeql-bundle.tar.gz
+      #     echo "/opt/codeql" >> $GITHUB_PATH
+      #
+      # # Run CodeQL Analysis
+      # - name: Run CodeQL Analysis
+      #   run: pnpm turbo run codeql-run-analysis --affected
+      #   continue-on-error: false
+      #
+      # # Upload CodeQL Results
+      # - name: Upload CodeQL Results
+      #   run: |
+      #     echo "Using Repo: $GITHUB_REPOSITORY"
+      #     pnpm turbo run codeql-upload-result --affected
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   continue-on-error: false
+      #
+      # # Run SonarQube Analysis
+      # - name: Run SonarQube Analysis
+      #   env:
+      #     SONAR_VUE_APP_1: ${{ secrets.SONAR_VUE_APP_1 }}
+      #     SONAR_VUE_APP_2: ${{ secrets.SONAR_VUE_APP_2 }}
+      #   run: pnpm turbo run sonar --affected
+      #   continue-on-error: false
+
+      # Set Turborepo Environment Variables
+      - name: Set Turborepo Environment Variables
+        run: |
+          echo "TURBO_TOKEN=$(openssl rand -hex 24)" >> $GITHUB_ENV
+          echo "TURBO_TEAM=my-apps" >> $GITHUB_ENV
+          echo "TURBO_API=http://127.0.0.1:43400" >> $GITHUB_ENV
+          echo "STORAGE_PROVIDER=azure-blob-storage" >> $GITHUB_ENV
+          echo "STORAGE_PATH=turborepo-cache" >> $GITHUB_ENV
+          echo "ABS_CONNECTION_STRING=${{ secrets.ABS_CONNECTION_STRING }}" >> $GITHUB_ENV
+
+      # Start the Turborepo Remote Cache Server
+      - name: Start Turborepo Cache Server
+        run: |
+          PORT=43400 pnpm run cache-server &
+          sleep 3  # Ensure the server has time to start
+
+      # # Lint, Test, Check Types & Build affected projects
+      # - name: Lint, Test, Check Types, and Build Affected Projects
+      #   run: |
+      #     NODE_ENV=production TURBO_API=${{ env.TURBO_API }} TURBO_TOKEN=${{ env.TURBO_TOKEN }} TURBO_TEAM=${{ env.TURBO_TEAM }} pnpm turbo run lint test build check-types --affected
+      #   env:
+      #     TURBO_REMOTE_CACHE_SIGNATURE_KEY: ${{ secrets.TURBO_REMOTE_CACHE_SIGNATURE_KEY }}
+      #   continue-on-error: false
+      - name: Lint, Test, Check Types & Build Affected Projects
+        run: |
+          echo "Using Turbo Variables:"
+          echo "TURBO_API=${TURBO_API}"
+          echo "TURBO_TOKEN=${TURBO_TOKEN}"
+          echo "TURBO_TEAM=${TURBO_TEAM}"
+          echo "TURBO_REMOTE_CACHE_SIGNATURE_KEY=${TURBO_REMOTE_CACHE_SIGNATURE_KEY}"
+
+          # Running Turbo with explicit environment variables
+          NODE_ENV=staging TURBO_API=${TURBO_API} TURBO_TOKEN=${TURBO_TOKEN} TURBO_TEAM=${TURBO_TEAM} \
+          TURBO_REMOTE_CACHE_SIGNATURE_KEY=${TURBO_REMOTE_CACHE_SIGNATURE_KEY} \
+          pnpm turbo run lint test check-types build --affected
+        env:
+          TURBO_API: ${{ env.TURBO_API }}
+          TURBO_TOKEN: ${{ env.TURBO_TOKEN }}
+          TURBO_TEAM: ${{ env.TURBO_TEAM }}
+          TURBO_REMOTE_CACHE_SIGNATURE_KEY: ${{ secrets.TURBO_REMOTE_CACHE_SIGNATURE_KEY }}
+        continue-on-error: false
+
+      # Login to Azure
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+        continue-on-error: false
+
+      # Install Azure Static Web Apps CLI
+      - name: Install SWA CLI
+        run: |
+          npm install -g @azure/static-web-apps-cli
+        continue-on-error: false
+
+      # Pre-download StaticSitesClient binary, this will always fail but won't affect further steps.
+      - name: Dry running to ensure StaticSitesClient binary is downloaded before actual deployment triggers to avoid failures
+        run: |
+          swa deploy --dry-run --deployment-token=${{ secrets.DEPLOY_TOKEN_VUE_APP_1 }} || true
+
+      # Deploy affected projects
+      - name: Deploy Affected Projects
+        env:
+          DEPLOY_TOKEN_VUE_APP_1: ${{ secrets.DEPLOY_TOKEN_VUE_APP_1 }}
+          DEPLOY_TOKEN_VUE_APP_2: ${{ secrets.DEPLOY_TOKEN_VUE_APP_2 }}
+        run: |
+          pnpm turbo run deploy --affected

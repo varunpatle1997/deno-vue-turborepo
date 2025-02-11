@@ -99,7 +99,7 @@ echo "Starting the Deno app on port ${PORT}..."
 
 # Ensure the bundle file exists
 if [ ! -f "${APP_DIR}/${BUNDLE_FILE}" ]; then
-  echo "Error: Compiled Deno binary '${APP_DIR}/${BUNDLE_FILE}' not found."
+  echo "Error: Built bundle '${APP_DIR}/${BUNDLE_FILE}' not found."
   exit 1
 fi
 
