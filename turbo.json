@@ -4,8 +4,7 @@
   "remoteCache": {
     "enabled": true,
     "timeout": 120,
-    "uploadTimeout": 300,
-    "signature": true
+    "uploadTimeout": 300
   },
   "tasks": {
     "build": {
@@ -18,6 +17,9 @@
     },
     "test": {
       "dependsOn": ["^test"]
+    },
+    "test:coverage": {
+      "dependsOn": ["^test:coverage"]
     },
     "format": {
       "dependsOn": ["^format"]

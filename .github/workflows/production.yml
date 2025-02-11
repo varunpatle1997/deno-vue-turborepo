@@ -116,60 +116,21 @@ jobs:
           echo "STORAGE_PATH=turborepo-cache" >> $GITHUB_ENV
           echo "ABS_CONNECTION_STRING=${{ secrets.ABS_CONNECTION_STRING }}" >> $GITHUB_ENV
 
-      # Start the Turborepo Remote Cache Server
-      # - name: Start Turborepo Cache Server
-      #   run: |
-      #     PORT=43400 pnpm run cache-server &
-
-      # # Lint, Test, Check Types & Build affected projects
-      # - name: Lint, Test, Check Types, and Build Affected Projects
-      #   run: |
-      #     NODE_ENV=production TURBO_API=${{ env.TURBO_API }} TURBO_TOKEN=${{ env.TURBO_TOKEN }} TURBO_TEAM=${{ env.TURBO_TEAM }} pnpm turbo run lint test build check-types --affected
-      #   env:
-      #     TURBO_REMOTE_CACHE_SIGNATURE_KEY: ${{ secrets.TURBO_REMOTE_CACHE_SIGNATURE_KEY }}
-      #   continue-on-error: false
-      # - name: Lint, Test, Check Types & Build Affected Projects
-      #   run: |
-      #     echo "Using Turbo Variables:"
-      #     echo "TURBO_API=${TURBO_API}"
-      #     echo "TURBO_TOKEN=${TURBO_TOKEN}"
-      #     echo "TURBO_TEAM=${TURBO_TEAM}"
-      #     echo "TURBO_REMOTE_CACHE_SIGNATURE_KEY=${TURBO_REMOTE_CACHE_SIGNATURE_KEY}"
-      #
-      #     # Running Turbo with explicit environment variables
-      #     NODE_ENV=staging TURBO_API=${TURBO_API} TURBO_TOKEN=${TURBO_TOKEN} TURBO_TEAM=${TURBO_TEAM} \
-      #     TURBO_REMOTE_CACHE_SIGNATURE_KEY=${TURBO_REMOTE_CACHE_SIGNATURE_KEY} \
-      #     pnpm turbo run lint test check-types build test:coverage --affected --cache-dir=./.turbo/.cache/turbo
-      #   env:
-      #     TURBO_API: ${{ env.TURBO_API }}
-      #     TURBO_TOKEN: ${{ env.TURBO_TOKEN }}
-      #     TURBO_TEAM: ${{ env.TURBO_TEAM }}
-      #     TURBO_REMOTE_CACHE_SIGNATURE_KEY: ${{ secrets.TURBO_REMOTE_CACHE_SIGNATURE_KEY }}
-      #   continue-on-error: false
-
+      # Start Turborepo Cache Server & Run Turbo Tasks
       - name: Start Turborepo Cache Server & Run Turbo Tasks
         run: |
           echo "Starting Turborepo Remote Cache Server..."
           PORT=43400 pnpm run cache-server &
-          sleep 3  # Allow the cache server to initialize
+          sleep 3 # Ensure server has started before tasks to run
 
-          echo "Using Turbo Variables:"
-          echo "TURBO_API=${TURBO_API}"
-          echo "TURBO_TOKEN=${TURBO_TOKEN}"
-          echo "TURBO_TEAM=${TURBO_TEAM}"
-          echo "TURBO_REMOTE_CACHE_SIGNATURE_KEY=${TURBO_REMOTE_CACHE_SIGNATURE_KEY}"
-
-          # Running Turbo with explicit environment variables
           TURBO_API=${TURBO_API} \
           TURBO_TOKEN=${TURBO_TOKEN} \
           TURBO_TEAM=${TURBO_TEAM} \
-          TURBO_REMOTE_CACHE_SIGNATURE_KEY=${TURBO_REMOTE_CACHE_SIGNATURE_KEY} \
-          NODE_ENV=production pnpm turbo run lint test check-types build test:coverage --affected --cache-dir=./.turbo/.cache/turbo --summarize
+          NODE_ENV=production pnpm turbo run lint test check-types build test:coverage --affected --cache-dir=./.turbo/.cache/turbo --output-logs=new-only
         env:
           TURBO_API: ${{ env.TURBO_API }}
           TURBO_TOKEN: ${{ env.TURBO_TOKEN }}
           TURBO_TEAM: ${{ env.TURBO_TEAM }}
-          TURBO_REMOTE_CACHE_SIGNATURE_KEY: ${{ secrets.TURBO_REMOTE_CACHE_SIGNATURE_KEY }}
         continue-on-error: false
 
       # # Login to Azure
