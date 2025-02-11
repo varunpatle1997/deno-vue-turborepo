@@ -20,7 +20,8 @@
         "!**/notes/**",
         "!**/*.d.ts",
         "!swa-cli.config.json",
-        "!eslint.config.js"
+        "!eslint.config.js",
+        "!node_modules/**"
       ],
       "cache": true
     },
@@ -40,7 +41,8 @@
         "!vite.config.ts",
         "!vitest.config.ts",
         "!**/*.d.ts",
-        "!swa-cli.config.json"
+        "!swa-cli.config.json",
+        "!node_modules/**"
       ],
       "cache": true
     },
@@ -62,7 +64,8 @@
         "!vitest.config.ts",
         "!**/*.d.ts",
         "!swa-cli.config.json",
-        "!eslint.config.js"
+        "!eslint.config.js",
+        "!node_modules/**"
       ],
       "cache": true
     },
@@ -80,7 +83,8 @@
         "!vite.config.ts",
         "!**/*.d.ts",
         "!swa-cli.config.json",
-        "!eslint.config.js"
+        "!eslint.config.js",
+        "!node_modules/**"
       ],
       "cache": true
     },
@@ -98,7 +102,8 @@
         "!vite.config.ts",
         "!**/*.d.ts",
         "!swa-cli.config.json",
-        "!eslint.config.js"
+        "!eslint.config.js",
+        "!node_modules/**"
       ],
       "cache": true
     },
@@ -119,7 +124,8 @@
         "!vitest.config.ts",
         "!**/*.d.ts",
         "!swa-cli.config.json",
-        "!eslint.config.js"
+        "!eslint.config.js",
+        "!node_modules/**"
       ],
       "cache": true
     },

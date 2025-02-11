@@ -11,7 +11,8 @@
         "!**/*.{spec,test}.{js,ts,jsx,tsx,snap}",
         "!package.json",
         "!turbo.json",
-        "!test_setup.{js,ts}"
+        "!test_setup.{js,ts}",
+        "!node_modules"
       ],
       "cache": true
     },
@@ -23,24 +24,44 @@
         "!**/*.{spec,test}.{js,ts,jsx,tsx,snap}",
         "!package.json",
         "!turbo.json",
-        "!test_setup.{js,ts}"
+        "!test_setup.{js,ts}",
+        "!node_modules"
       ],
       "cache": true
     },
     "test": {
       "outputs": ["coverage/**"],
       "dependsOn": ["^build"],
-      "inputs": ["$TURBO_DEFAULT$", "!**/*.md", "!package.json", "!turbo.json"],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "!**/*.md",
+        "!package.json",
+        "!turbo.json",
+        "!node_modules"
+      ],
       "cache": true
     },
     "test:coverage": {
       "outputs": ["coverage/**"],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "!**/*.md",
+        "!package.json",
+        "!turbo.json",
+        "!node_modules"
+      ],
       "dependsOn": ["^build"],
       "cache": true
     },
     "check-types": {
       "outputs": [],
-      "inputs": [],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "!node_modules",
+        "!**/*.md",
+        "!package.json",
+        "!turbo.json"
+      ],
       "cache": true
     },
     "format": {
@@ -52,7 +73,8 @@
         "!package.json",
         "!turbo.json",
         "!deno.json",
-        "!deno.lock"
+        "!deno.lock",
+        "!node_modules"
       ],
       "cache": true
     },

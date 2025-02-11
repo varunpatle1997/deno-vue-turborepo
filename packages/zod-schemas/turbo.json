@@ -7,6 +7,7 @@
       "outputs": ["dist/**"],
       "inputs": [
         "$TURBO_DEFAULT$",
+        "!node_modules",
         "!eslint.config.js",
         "!**/*.md",
         "!**/*.d.ts"
@@ -15,27 +16,47 @@
     },
     "lint": {
       "outputs": [],
-      "inputs": ["$TURBO_DEFAULT$", "!**/*.md", "!tsconfig.json"],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "!**/*.md",
+        "!tsconfig.json",
+        "!node_modules"
+      ],
       "cache": true
     },
     "test": {
       "outputs": [],
-      "inputs": [],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "!**/*.md",
+        "!tsconfig.json",
+        "!node_modules"
+      ],
       "cache": true
     },
     "test:coverage": {
       "outputs": [],
-      "inputs": [],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "!**/*.md",
+        "!tsconfig.json",
+        "!node_modules"
+      ],
       "cache": true
     },
     "check-types": {
       "outputs": [],
-      "inputs": [],
+      "inputs": ["$TURBO_DEFAULT$", "!**/*.md", "!node_modules"],
       "cache": true
     },
     "format": {
       "outputs": [],
-      "inputs": [],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "!**/*.md",
+        "!tsconfig.json",
+        "!node_modules"
+      ],
       "cache": true
     },
     "deploy": {
