@@ -4,7 +4,8 @@
   "remoteCache": {
     "enabled": true,
     "timeout": 120,
-    "uploadTimeout": 300
+    "uploadTimeout": 300,
+    "signature": true
   },
   "tasks": {
     "build": {
