@@ -67,44 +67,44 @@ jobs:
           pnpm turbo build --affected --graph
 
       # Install SonarScanner CLI
-      # - name: Install SonarScanner CLI
-      #   run: |
-      #     set -e  # Stop execution if any command fails
-      #     wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-6.2.1.4610-linux-x64.zip -O sonar-scanner.zip
-      #     unzip sonar-scanner.zip
-      #     mv sonar-scanner-6.2.1.4610-linux-x64 sonar-scanner
-      #     echo "$(pwd)/sonar-scanner/bin" >> $GITHUB_PATH
+      - name: Install SonarScanner CLI
+        run: |
+          set -e  # Stop execution if any command fails
+          wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-6.2.1.4610-linux-x64.zip -O sonar-scanner.zip
+          unzip sonar-scanner.zip
+          mv sonar-scanner-6.2.1.4610-linux-x64 sonar-scanner
+          echo "$(pwd)/sonar-scanner/bin" >> $GITHUB_PATH
 
       # Install CodeQL CLI
-      # - name: Install CodeQL CLI
-      #   run: |
-      #     set -e  # Stop execution if any command fails
-      #     wget https://github.com/github/codeql-action/releases/latest/download/codeql-bundle-linux64.tar.gz -O codeql-bundle.tar.gz
-      #     tar -xzf codeql-bundle.tar.gz -C /opt/
-      #     rm codeql-bundle.tar.gz
-      #     echo "/opt/codeql" >> $GITHUB_PATH
+      - name: Install CodeQL CLI
+        run: |
+          set -e  # Stop execution if any command fails
+          wget https://github.com/github/codeql-action/releases/latest/download/codeql-bundle-linux64.tar.gz -O codeql-bundle.tar.gz
+          tar -xzf codeql-bundle.tar.gz -C /opt/
+          rm codeql-bundle.tar.gz
+          echo "/opt/codeql" >> $GITHUB_PATH
 
       # Run CodeQL Analysis
-      # - name: Run CodeQL Analysis
-      #   run: pnpm turbo run codeql-run-analysis --affected
-      #   continue-on-error: false
+      - name: Run CodeQL Analysis
+        run: pnpm turbo run codeql-run-analysis --affected
+        continue-on-error: false
 
       # Upload CodeQL Results
-      # - name: Upload CodeQL Results
-      #   run: |
-      #     echo "Using Repo: $GITHUB_REPOSITORY"
-      #     pnpm turbo run codeql-upload-result --affected
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   continue-on-error: false
+      - name: Upload CodeQL Results
+        run: |
+          echo "Using Repo: $GITHUB_REPOSITORY"
+          pnpm turbo run codeql-upload-result --affected
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        continue-on-error: false
 
       # Run SonarQube Analysis
-      # - name: Run SonarQube Analysis
-      #   env:
-      #     SONAR_VUE_APP_1: ${{ secrets.SONAR_VUE_APP_1 }}
-      #     SONAR_VUE_APP_2: ${{ secrets.SONAR_VUE_APP_2 }}
-      #   run: pnpm turbo run sonar --affected
-      #   continue-on-error: false
+      - name: Run SonarQube Analysis
+        env:
+          SONAR_VUE_APP_1: ${{ secrets.SONAR_VUE_APP_1 }}
+          SONAR_VUE_APP_2: ${{ secrets.SONAR_VUE_APP_2 }}
+        run: pnpm turbo run sonar --affected
+        continue-on-error: false
 
       # Set Turborepo Environment Variables
       - name: Set Turborepo Environment Variables
@@ -157,4 +157,4 @@ jobs:
           DEPLOY_TOKEN_VUE_APP_1: ${{ secrets.DEPLOY_TOKEN_VUE_APP_1 }}
           DEPLOY_TOKEN_VUE_APP_2: ${{ secrets.DEPLOY_TOKEN_VUE_APP_2 }}
         run: |
-          pnpm turbo run deploy --filter=vue-app-1
+          pnpm turbo run deploy --affected
