@@ -3,7 +3,6 @@ import { openAPIJsonContent } from "../../utils/commonFunction.ts";
 import { CONSTANTS } from '../../utils/helpers/constant.ts'
 import { taskSelectSchema,idParamsSchema, taskPatchSchema} from '../../database/schema/task-schema.ts';
 import { jsonContentRequired } from 'stoker/openapi/helpers';
-import createErrorSchema from 'stoker/openapi/schemas/create-error-schema';
 import { OPEN_API_DOC_MESSAGE } from '../open-api.message.ts';
 const tags = ["Tasks"];
 

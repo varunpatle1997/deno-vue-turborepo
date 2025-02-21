@@ -5,7 +5,7 @@ import {
     text,
   } from "drizzle-orm/pg-core";
   import { z } from '@hono/zod-openapi';
-  import { createSelectSchema, createInsertSchema } from 'drizzle-zod';
+  import { createSelectSchema } from 'drizzle-zod';
   
   //schema defination
   export const tasks = pgTable('tasks', {
