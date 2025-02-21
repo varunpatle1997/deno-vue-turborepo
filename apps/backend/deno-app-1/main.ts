@@ -1,6 +1,12 @@
-import { app } from "./app.ts";
+import { config } from 'https://deno.land/x/dotenv@v3.2.0/mod.ts';
+import app from './app.ts'
+// Load environment variables
+const env = config();
+const port = env.PORT;
 
-const port = Number(Deno.env.get("PORT")) || 8080;
+//start deno server
+Deno.serve(
+    {port: port }, 
+    app.fetch
+);
 
-Deno.serve({ port }, app.fetch);
-console.log(`Server running on port ${port}`);
