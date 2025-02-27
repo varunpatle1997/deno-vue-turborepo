@@ -1,6 +1,6 @@
 const dashboardRoutes = [
     {
-      path: '/dashboard',
+      path: '/',
       name: 'Dashboard',
       component: () => import('./components/UserDashboard.vue'),
     },

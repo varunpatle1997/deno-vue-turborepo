@@ -4,7 +4,12 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
   ...authRoutes,
-  ...dashboardRoutes
+  ...dashboardRoutes,
+  {
+    path: '/shadcn',
+    name: 'Shadcn comps',
+    component: () => import('../components/Shadcn.vue'),
+  },
 ]
 
 const router = createRouter({

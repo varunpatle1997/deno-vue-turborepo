@@ -1,9 +1,9 @@
 import { defineConfig } from 'vite'
-import tailwindcss from '@tailwindcss/vite'
-import autoprefixer from 'autoprefixer'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 import path from 'path'
+import autoprefixer from 'autoprefixer'
+import tailwind from 'tailwindcss'
 import fs from 'fs'
 
 export default defineConfig(() => {
@@ -34,10 +34,10 @@ export default defineConfig(() => {
     },
     css: {
       postcss: {
-        plugins: [autoprefixer()],
+        plugins: [tailwind(), autoprefixer()],
       },
     },
-    plugins: [vue(), vueDevTools(), tailwindcss()],
+    plugins: [vue(), vueDevTools()],
     define: viteDefine,
   }
 })
