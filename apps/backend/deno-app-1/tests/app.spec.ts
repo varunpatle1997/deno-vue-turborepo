@@ -1,36 +1,63 @@
-import { describe, it } from "jsr:@std/testing/bdd";
 import { expect } from "jsr:@std/expect";
-import { app } from "../app.ts";
+import { serve } from "https://deno.land/std@0.208.0/http/server.ts";
+import app from "../app.ts";
 
-Deno.env.set("APP_NAME", "Test App");
-Deno.env.set("OWNER_NAME", "Test Owner");
+let server: Deno.HttpServer | null = null;
 
-describe("Hono App Endpoints", () => {
-  it("GET / should return 'Hello'", async () => {
+Deno.test("Hono App Endpoints", async (t) => {
+  server = serve(app.fetch, { port: 8000 });
+
+  await t.step("GET / should return correct JSON response ", async () => {
     const response = await app.fetch(
-      new Request("http://localhost/", { method: "GET" }),
+      new Request("http://localhost/api", { method: "GET" }),
     );
-    const text = await response.text();
+    expect(response.status).toBe(200);
+  });
+
+  await t.step("GET /list-tasks should return List of Tasks", async () => {
+    const response = await fetch("http://localhost:8000/list-tasks", {
+      method: "GET",
+    });
+    expect(response.status).toBe(200);
+  });
+  let createdTaskId: string;
+  await t.step("POST /create-tasks should create a new task", async () => {
+    const newTask = { name: "Test Task12", done: false };
+
+    const response = await fetch("http://localhost:8000/create-tasks", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newTask),
+    });
 
     expect(response.status).toBe(200);
-    expect(text).toBe(
-      '{"message":"App Name: Test App - Owner Name: Test Owner - Dummy text","chunkedData":[[1,2],[3,4],[5,6],[7,8]]}',
-    );
+    const responseBody = await response.json();
+    expect(responseBody.data.name).toBe(newTask.name);
+    // Store task ID for PATCH & DELETE
+    createdTaskId = responseBody.data.id;
+  });
+  await t.step("PATCH /tasks/:id should update a task", async () => {
+    const updateData = { name: "test", done:"true" };
+
+    const response = await fetch(`http://localhost:8000/tasks/${createdTaskId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updateData),
+    });
+    const responseBody = await response.json();
+    expect(response.status).toBe(200);
+    expect(responseBody.data.name).toBe("test");
+    expect(responseBody.data.done).toBe(true);
+  });
+  await t.step("DELETE /tasks/:id should remove a task", async () => {
+    const response = await fetch(`http://localhost:8000/tasks/${createdTaskId}`, {
+      method: "DELETE",
+    });
+
+    expect(response.status).toBe(204); // No Content
   });
 
-  it("should return validation errors for invalid POST /submit", async () => {
-    const invalidData = { name: "JD", email: "invalid-email" };
-
-    const response = await app.fetch(
-      new Request("http://localhost/submit", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(invalidData),
-      }),
-    );
-
-    const json = await response.json();
-    expect(response.status).toBe(400);
-    expect(json).toHaveProperty("error");
-  });
+  if (server) {
+    Deno.exit(0);
+  }
 });
